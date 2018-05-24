@@ -1,0 +1,90 @@
+\documentclass[dvipsnames,table]{beamer}
+\usepackage{polski}
+
+\usetheme{Rochester}
+\usecolortheme{orchid}
+
+\usepackage{listings}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{wasysym}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{tikzsymbols}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
+\setbeamerfont{caption}{size=\scriptsize}
+\setbeamercolor{framenote}{bg=OSEC-red!25}
+\setbeamercolor{rednote}{bg=Red!25}
+\setbeamercolor{palette primary}{use=structure,fg=white,bg=OSEC-red}
+\setbeamercolor{palette secondary}{use=structure,fg=white,bg=OSEC-red2}
+
+\setbeamertemplate{itemize item}{\scriptsize\raise1pt\hbox{\donotcoloroutermaths$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\tiny\raise1pt\hbox{\donotcoloroutermaths$\bullet$}}
+\setbeamertemplate{itemize subsubitem}{\tiny\raise1pt\hbox{\donotcoloroutermaths{--}}}
+
+\setbeamertemplate{enumerate item}{\insertenumlabel.}
+\setbeamertemplate{enumerate subitem}{\insertenumlabel.\insertsubenumlabel}
+\setbeamertemplate{enumerate subsubitem}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel}
+\setbeamertemplate{enumerate mini template}{\insertenumlabel}
+
+\setbeamercolor{itemize item}{fg=OSEC-red, bg=OSEC-red}
+\setbeamercolor{itemize subitem}{fg=OSEC-red, bg=OSEC-red}
+\setbeamercolor{itemize subsubitem}{fg=OSEC-red, bg=OSEC-red}
+
+\setbeamercolor{section number projected}{fg=white,bg=OSEC-red}
+\setbeamercolor{subsection number projected}{fg=white,bg=OSEC-red}
+\setbeamercolor{button}{bg=OSEC-red,fg=white}
+
+\setbeamertemplate{section in toc}[circle]
+\setbeamertemplate{subsection in toc}[square]
+
+\definecolor{OSEC-red}{RGB}{160,29,44}
+\definecolor{OSEC-red2}{RGB}{177,76,12}
+\hypersetup{colorlinks=true,linkcolor=white,urlcolor=OSEC-red}
+
+\setlength{\tabcolsep}{8pt}
+\renewcommand{\arraystretch}{1.2}
+
+\newcommand{\tri}{$\triangleright$ }
+
+\title{Gdy CPU nie wystarcza –- strategie optymalizacji oprogramowania z użyciem technologii GPU oraz FPGA}
+\author{Radosław Kujawa -- radoslaw.kujawa@osec.pl}
+\institute{OSEC}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}
+	\frametitle{Foo + bar}
+\begin{itemize}
+	\item Wydajność procesorów nie rośnie już tak szybko\dots
+	\item Instancje maszyn wirtualnych {\em nie mogą} posiadać interfejsów przyłączonych bezpośrednio do sieci fizycznej (brak odp. bridge'y na węzłach obliczeniowych).
+	\item Type driver {\tt vlan}/{\tt vxlan} -- dostęp do odseparowanego segmentu sieci fizycznej.
+	\item Warstwa 2 - sterowniki ML2 (,,mechanism driver'' np. Open vSwitch).
+\end{itemize}
+\end{frame}
+
+%\begin{frame}
+%\frametitle{Architektura z centralnym punktem dostępu do sieci zewnętrznej}
+%\includegraphics[width=1.00\textwidth]{img-neutron-tenantonly.pdf}
+%\end{frame}
+
+\begin{frame}
+\frametitle{Koniec\ldots}
+\begin{center}
+\includegraphics[scale=0.5]{img-oseclogo.png}
+
+Dziękuje!
+
+Czy są pytania?
+
+\end{center}
+\end{frame}
+\end{document}
+
