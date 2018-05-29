@@ -70,6 +70,90 @@
 \end{itemize}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Nvidia CUDA}
+\begin{itemize}
+	\item - Closed source.
+	\item - Vendor lock-in.
+	\item - Dobre materiały edukacyjne.
+	\item Duża popularność.
+	\item Gotowe biblioteki blas, lapack itd.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{OpenCL}
+\begin{itemize}
+	\item Jak OpenGL, tylko do obliczeń.
+	\item Analogiczna architektura oparta o ICD, dostarczany przez dostawcę sprzętu.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+	\item Badania naukowe wymagające obliczeń równoległych.
+	\item Wydobycie walut kryptograficznych.
+	\item Akceleracja przeglądarek z użyciem GPU:
+	\begin{itemize}
+		\item Chrome
+		\item Firefox
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Popularne implementacje OpenCL}
+\begin{itemize}
+	\item AMDGPU Pro.
+	\item Mesa Clover (AMD).
+	\item Nvidia (bazuje na CUDA).
+	\item Beignet (Intel).
+	\item pocl (CPU).
+	\item Intel OpenCL (GPU, Xeon Phi).
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{OpenACC}
+\begin{itemize}
+	\item Deklaracje w zwykłym kodzie C/C++.
+	\item nvptx (CUDA)
+	\item gcc dla nvptx (open source)
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{GPGPU i FPGA w chmurze}
+\begin{itemize}
+	\item Amazon F1.
+	\item GPU w Amazon.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Algorytmy...}
+\begin{itemize}
+	\item Od początku istnienia komputerów, większość algorytmów była projektowana jako algrytmy sekwencyjne.
+	\item Wyodrębnienie części algorytmu, która może wykonywać się równolegle.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Konwersja algorytmu sekwencyjnego w równoległy}
+\begin{itemize}
+	\item foo
+\end{itemize}
+\end{frame}
+
+% Ian Foster
+% Designing and Building Parallel Programs
+% http://www.mcs.anl.gov/~itf/dbpp/text/book.html
+
+% Uzi Vishkin
+% Thinking in Parallel: Some Basic Data-Parallel Algorithms and Techniques
+% http://legacydirs.umiacs.umd.edu/~vishkin/PUBLICATIONS/classnotes.pdf
+
+
 %\begin{frame}
 %\frametitle{Architektura z centralnym punktem dostępu do sieci zewnętrznej}
 %\includegraphics[width=1.00\textwidth]{img-neutron-tenantonly.pdf}
