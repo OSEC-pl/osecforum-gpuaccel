@@ -55,7 +55,6 @@
    basicstyle=\tiny,
    breaklines=true,
    escapechar=\@,
-   commentstyle=\color{NetBSD-orange}
 }
 
 \title{Gdy CPU nie wystarcza –- strategie optymalizacji oprogramowania z użyciem technologii GPU oraz FPGA}
@@ -97,10 +96,14 @@
 \begin{itemize}
 	\item Closed source.
 	\item Vendor lock-in.
+	\item Bardzo słaba integracja z dystrybucjami Linuxa.
 	\item Dobre materiały edukacyjne.
-	\item Duża popularność.
-	\item Gotowe biblioteki blas, lapack itd.
+	\item Duża popularność w środowisku akademickim.
+	\item Gotowe biblioteki BLAS, FFTW, NPP, itd.
 \end{itemize}
+\includegraphics[scale=0.25]{img-torvalds.png}
+\includegraphics[scale=0.19]{img-stallman.jpg}
+
 \end{frame}
 
 \begin{frame}
@@ -117,10 +120,10 @@
 \begin{frame}
 	\frametitle{Popularne implementacje OpenCL}
 \begin{itemize}
-	\item AMDGPU Pro.
-	\item Mesa Clover (AMD).
+	\item AMDGPU Pro (GPU AMD).
+	\item Mesa Clover (GPU AMD).
 	\item Nvidia (bazuje na CUDA).
-	\item Beignet (Intel).
+	\item Beignet (GPU Intel).
 	\item pocl (CPU).
 	\item Intel OpenCL (GPU, Xeon Phi).
 \end{itemize}
@@ -172,6 +175,32 @@
 %\includegraphics[width=1.00\textwidth]{img-neutron-tenantonly.pdf}
 %\end{frame}
 
+\begin{frame}[fragile]
+	\frametitle{Przykład: OpenACC}
+\begin{lstlisting}
+/* gcc src.c -fopenacc -foffload=nvptx-none -foffload="-O3" -O3 -o exec */
+#include <stdio.h>
+#define N 2000000000
+#define vl 1024
+
+int main(void) {
+	double pi = 0.0f;
+	long long i;
+
+	#pragma acc parallel vector_length(vl)
+	#pragma acc loop reduction(+:pi)
+	for (i = 0; i < N; i++) {
+		double t = (double)((i+0.5)/N);
+		pi +=4.0/(1.0+t*t);
+	}
+
+	printf("pi=%11.10f\n",pi/N);
+
+	return 0;
+}
+\end{lstlisting}
+\end{frame}
+
 \begin{frame}
 	\frametitle{Biblioteki wyższego poziomu}
 \begin{itemize}
@@ -188,8 +217,9 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Przykład: BLAS}
+	\frametitle{BLAS -- Basic Linear Algebra Subprograms} 
 \begin{itemize}
+	\item Przykład biblioteki wysokiego poziomu zoptymalizowanej dla GPU/FPGA.
 	\item \href{http://www.netlib.org/blas/}{CBLAS (CPU)}.
 	\item \href{https://docs.nvidia.com/cuda/cublas/index.html}{cuBLAS (CUDA)}.
 	\item \href{https://github.com/CNugteren/CLBlast}{CLBlast (OpenCL)}.
