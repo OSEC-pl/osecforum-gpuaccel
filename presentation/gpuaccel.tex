@@ -50,6 +50,14 @@
 
 \newcommand{\tri}{$\triangleright$ }
 
+\lstset{
+   language=C,
+   basicstyle=\tiny,
+   breaklines=true,
+   escapechar=\@,
+   commentstyle=\color{NetBSD-orange}
+}
+
 \title{Gdy CPU nie wystarcza –- strategie optymalizacji oprogramowania z użyciem technologii GPU oraz FPGA}
 \author{Radosław Kujawa -- radoslaw.kujawa@osec.pl}
 \institute{OSEC}
@@ -158,6 +166,69 @@
 %\frametitle{Architektura z centralnym punktem dostępu do sieci zewnętrznej}
 %\includegraphics[width=1.00\textwidth]{img-neutron-tenantonly.pdf}
 %\end{frame}
+
+\begin{frame}
+	\frametitle{Biblioteki wyższego poziomu}
+\begin{itemize}
+	\item Biblioteki wyższego poziomu.
+	\item Łatwiejsze w obsłudze, niższy próg wejścia niż do CUDA/OpenCL.
+	\item Wiele gotowych bibliotek dla specyficznych dziedzin programowania.
+	\begin{itemize}
+		\item OpenCV.
+		\item Basic Linear Algebra Subprograms (BLAS).
+		\item \ldots 
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Przykład: BLAS}
+\begin{itemize}
+	\item \href{http://www.netlib.org/blas/}{CBLAS (CPU)}
+	\item \href{https://docs.nvidia.com/cuda/cublas/index.html}{cuBLAS (CUDA)} 
+	\item \href{https://github.com/CNugteren/CLBlast}{CLBlast (OpenCL)}
+	\item \href{https://developer.apple.com/documentation/accelerate/blas}{Accelerate.framework (CPU SIMD, macOS)}
+	\item \ldots
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Przykład: Mnożenie macierzy za pomocą  BLAS}
+\begin{itemize}
+	\item Funkcja {\tt sgemm} (poj. prezycja) / {\tt dgemm} (podwójna precyzja).
+\end{itemize}
+\begin{lstlisting}
+void cblas_sgemm(const CBLAS_LAYOUT layout, const CBLAS_TRANSPOSE TransA,
+	const CBLAS_TRANSPOSE TransB, const int m, const int n,
+	const int k, const float alpha, const float  *A,
+	const int lda, const float  *B, const int ldb,
+	const float beta, float  *C, const int ldc);
+\end{lstlisting}
+\[ C \leftarrow \alpha op(A) op(B) + \beta C \]
+\begin{itemize}
+	\item $op(X)$ to $op(X) = X$, lub $op(X) = X^T$ lub $op(X) = X^H$.
+	\item $\alpha$ i $\beta$ są skalarami.
+	\item $A$, $B$ i $C$ są macierzami.
+	\item $op(A)$ jest macierzą $m$ x $k$.
+	\item $op(B)$ jest macierzą $k$ x $n$.
+	\item $C$ jest macierzą $m$ x $n$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{foo}
+
+\[
+ \begin{bmatrix}
+  a & b & c \\
+  d & e & f \\
+  g & h & i
+ \end{bmatrix}
+\]
+	\begin{itemize}
+	\item foo
+	\end{itemize}
+\end{frame}
 
 \begin{frame}
 \frametitle{Koniec\ldots}
