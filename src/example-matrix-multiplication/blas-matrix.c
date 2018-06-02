@@ -1,7 +1,5 @@
 #include <stdio.h>
 
-#if USE_CBLAS
-
 /* on macOS build with -framework Accelerate */
 #if __APPLE__
 #include <Accelerate/Accelerate.h>
@@ -9,7 +7,7 @@
 #include <cblas.h>
 #endif
 
-#endif
+#define MATRIX_EDGE_SIZE 5000
 
 /*
  * Allocate memory for m * n sized matrix.
@@ -47,8 +45,8 @@ matrix_multiply(float *a, float *b, uint32_t m, uint32_t n)
 
 	c = matrix_alloc(m, n);
 
-	cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 5000, 5000, 5000,
-	    1.0f, a, 5000, b, 5000, 1.0f, c, 5000);
+	cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, MATRIX_EDGE_SIZE, MATRIX_EDGE_SIZE, MATRIX_EDGE_SIZE,
+	    1.0f, a, MATRIX_EDGE_SIZE, b, MATRIX_EDGE_SIZE, 1.0f, c, MATRIX_EDGE_SIZE);
 
 	return c;
 }
@@ -60,15 +58,15 @@ main()
 	uint32_t i, j, k;
 
 
-	a = matrix_alloc(5000, 5000);
-	b = matrix_alloc(5000, 5000);
-	matrix_fill(a, 5000, 5000);
-	matrix_fill(b, 5000, 5000);
-	c = matrix_multiply(a, b, 5000, 5000);
+	a = matrix_alloc(MATRIX_EDGE_SIZE, MATRIX_EDGE_SIZE);
+	b = matrix_alloc(MATRIX_EDGE_SIZE, MATRIX_EDGE_SIZE);
+	matrix_fill(a, MATRIX_EDGE_SIZE, MATRIX_EDGE_SIZE);
+	matrix_fill(b, MATRIX_EDGE_SIZE, MATRIX_EDGE_SIZE);
+	c = matrix_multiply(a, b, MATRIX_EDGE_SIZE, MATRIX_EDGE_SIZE);
 
 	i = 0; k = 0;
 	for (j = 0; j < 5; j++) {
-		k = j * 5000;
+		k = j * MATRIX_EDGE_SIZE;
 		for (i = 0; i < 5; i++) {
 			printf("%.2f\t", c[k]);
 			k++;
