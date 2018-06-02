@@ -75,29 +75,12 @@
 	\item Instancje maszyn wirtualnych {\em nie mogą} posiadać interfejsów przyłączonych bezpośrednio do sieci fizycznej (brak odp. bridge'y na węzłach obliczeniowych).
 	\item Type driver {\tt vlan}/{\tt vxlan} -- dostęp do odseparowanego segmentu sieci fizycznej.
 	\item Warstwa 2 - sterowniki ML2 (,,mechanism driver'' np. Open vSwitch).
+	\item GPGPU -- foo
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Nvidia CUDA}
-\begin{itemize}
-	\item - Closed source.
-	\item - Vendor lock-in.
-	\item - Dobre materiały edukacyjne.
-	\item Duża popularność.
-	\item Gotowe biblioteki blas, lapack itd.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{OpenCL}
-\begin{itemize}
-	\item Jak OpenGL, tylko do obliczeń.
-	\item Analogiczna architektura oparta o ICD, dostarczany przez dostawcę sprzętu.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
+	\frametitle{Obszary zastosowań GPGPU oraz FPGA} 
 \begin{itemize}
 	\item Badania naukowe wymagające obliczeń równoległych.
 	\item Wydobycie walut kryptograficznych.
@@ -108,6 +91,28 @@
 	\end{itemize}
 \end{itemize}
 \end{frame}
+
+\begin{frame}
+	\frametitle{Nvidia CUDA}
+\begin{itemize}
+	\item Closed source.
+	\item Vendor lock-in.
+	\item Dobre materiały edukacyjne.
+	\item Duża popularność.
+	\item Gotowe biblioteki blas, lapack itd.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{OpenCL}
+\begin{itemize}
+	\item Otwarty standard grupy Khronos.
+	\item Jak OpenGL, tylko do obliczeń.
+	\item Analogiczna architektura oparta o ICD, dostarczany przez dostawcę sprzętu.
+	\item Nie tylko GPU, ale też CPU, FPGA, ...
+\end{itemize}
+\end{frame}
+
 
 \begin{frame}
 	\frametitle{Popularne implementacje OpenCL}
@@ -176,6 +181,7 @@
 	\begin{itemize}
 		\item OpenCV.
 		\item Basic Linear Algebra Subprograms (BLAS).
+		\item TensorFlow.
 		\item \ldots 
 	\end{itemize}
 \end{itemize}
@@ -184,10 +190,10 @@
 \begin{frame}
 	\frametitle{Przykład: BLAS}
 \begin{itemize}
-	\item \href{http://www.netlib.org/blas/}{CBLAS (CPU)}
-	\item \href{https://docs.nvidia.com/cuda/cublas/index.html}{cuBLAS (CUDA)} 
-	\item \href{https://github.com/CNugteren/CLBlast}{CLBlast (OpenCL)}
-	\item \href{https://developer.apple.com/documentation/accelerate/blas}{Accelerate.framework (CPU SIMD, macOS)}
+	\item \href{http://www.netlib.org/blas/}{CBLAS (CPU)}.
+	\item \href{https://docs.nvidia.com/cuda/cublas/index.html}{cuBLAS (CUDA)}.
+	\item \href{https://github.com/CNugteren/CLBlast}{CLBlast (OpenCL)}.
+	\item \href{https://developer.apple.com/documentation/accelerate/blas}{Accelerate.framework (CPU SIMD, macOS)}.
 	\item \ldots
 \end{itemize}
 \end{frame}
@@ -217,17 +223,53 @@ void cblas_sgemm(const CBLAS_LAYOUT layout, const CBLAS_TRANSPOSE TransA,
 
 \begin{frame}[fragile]
 	\frametitle{foo}
-
+\begin{itemize}
+	\item Prawdopodobnie najprostszy możliwy przypadek -- mnożenie dwóch macierzy, o takich samych rozmiarach, bez dodatkowych operacji. 
+	\item $A$ oraz $B$ mają rozmiar 1000 x 1000.
+\end{itemize}
+\scriptsize
 \[
- \begin{bmatrix}
-  a & b & c \\
-  d & e & f \\
-  g & h & i
- \end{bmatrix}
+A =
+\begin{bmatrix}
+	a_{0} & a_{1} & \dots & a_{999} \\
+	a_{1000} & a_{1001} & \dots & a_{1999} \\
+	\dots & \dots & \dots & \dots \\
+	a_{999000} & a_{999001} & \dots & a_{999999} \\
+\end{bmatrix}
+, B = 
+\begin{bmatrix}
+	b_{0} & b_{1} & \dots & b_{999} \\
+	b_{1000} & b_{1001} & \dots & b_{1999} \\
+	\dots & \dots & \dots & \dots \\
+	b_{999000} & b_{999001} & \dots & b_{999999} \\
+\end{bmatrix}
 \]
-	\begin{itemize}
-	\item foo
-	\end{itemize}
+\[
+C = A \times B
+\]
+\normalsize
+\begin{lstlisting}
+cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 1000, 1000, 1000,
+	1.0f, a, 1000, b, 1000, 1.0f, c, 1000);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Benchmark - mnożenie macierzy 5000 x 5000}
+\begin{table}[]
+\centering
+\caption{Porównanie czasów wykonania programu mnożącego macierz z użyciem funkcji sgemm.}
+\label{porownanie}
+\scriptsize
+\begin{tabular}{llll}
+\hline
+Implementacja & CPU/GPU   & System operacyjny & Czas  \\ \hline
+CBLAS 3.8.0   & AMD E-350 & Fedora 28         & 6m41s \\
+Accelerate.framework & Intel Core M-5Y51  & macOS 10.13 & 0m9s  \\
+cuBLAS (CUDA 9.1) & GeForce GTX 1050 Ti & Fedora 28 & 0m2s  \\ \hline
+\end{tabular}
+\normalsize
+\end{table}
 \end{frame}
 
 \begin{frame}
