@@ -78,6 +78,8 @@
 \end{itemize}
 \end{frame}
 
+% krótki wstęp do arch. GPU i FPGA
+
 \begin{frame}
 	\frametitle{Obszary zastosowań GPGPU oraz FPGA} 
 \begin{itemize}
@@ -94,12 +96,14 @@
 \begin{frame}
 	\frametitle{Nvidia CUDA}
 \begin{itemize}
+	\item Dobra wydajność i optymalizacja pod kątem kart Nvidia.
 	\item Closed source.
 	\item Vendor lock-in.
-	\item Bardzo słaba integracja z dystrybucjami Linuxa.
+	\item Gotowe biblioteki BLAS, FFTW, NPP, itd.
+	\item Słaba integracja z dystrybucjami Linuxa.
 	\item Dobre materiały edukacyjne.
 	\item Duża popularność w środowisku akademickim.
-	\item Gotowe biblioteki BLAS, FFTW, NPP, itd.
+	\item Kod C kompilowany kompilatorem C++. \Annoey
 \end{itemize}
 \includegraphics[scale=0.25]{img-torvalds.png}
 \includegraphics[scale=0.19]{img-stallman.jpg}
@@ -117,16 +121,29 @@
 \end{frame}
 
 
-\begin{frame}
-	\frametitle{Popularne implementacje OpenCL}
-\begin{itemize}
-	\item AMDGPU Pro (GPU AMD).
-	\item Mesa Clover (GPU AMD).
-	\item Nvidia (bazuje na CUDA).
-	\item Beignet (GPU Intel).
-	\item pocl (CPU).
-	\item Intel OpenCL (GPU, Xeon Phi).
-\end{itemize}
+\begin{frame}[fragile]
+	\frametitle{Implementacje OpenCL}
+\begin{table}[]
+\centering
+\caption{Najpopularniejsze implementacje OpenCL.}
+\label{porownanie}
+\scriptsize
+\begin{tabular}{llll}
+\hline
+Implementacja &  Urządzenia  & Open source   \\ \hline
+Apple OpenCL & GPU AMD/Nvidia/Intel & Nie \\
+AMDGPU Pro & GPU AMD & Nie \\
+Beignet & GPU Intel & Tak \\
+Intel FPGA SDK for OpenCL & FPGA Altera & Nie \\
+Intel Graphics Compute Runtime & GPU Intel Gen8+ & Tak \\
+pocl & CPU & Tak \\
+ROcm & GPU AMD i CPU & Tak \\
+Nvidia OpenCL & GPU Nvidia & Nie \\
+Mesa Clover & GPU AMD/Nvidia & Tak \\
+Xilinx SDAccel & FPGA Xilinx & Nie \\ \hline
+\end{tabular}
+\normalsize
+\end{table}
 \end{frame}
 
 \begin{frame}
@@ -300,6 +317,13 @@ cuBLAS (CUDA 9.1) & GeForce GTX 1050 Ti & Fedora 28 & 0m2s  \\ \hline
 \end{tabular}
 \normalsize
 \end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Więcej informacji...}
+\begin{itemize}
+	\item \href{https://www.x.org/wiki/Events/XDC2017/Stellard_GPGPU.pdf}{Tom Stellard - Current State of Open Source GPGPU - XDC2017}
+\end{itemize}
 \end{frame}
 
 \begin{frame}
