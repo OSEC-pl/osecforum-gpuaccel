@@ -99,7 +99,7 @@
 		\item Chrome.
 		\item Firefox.
 	\end{itemize}
-	\item Modele probabilityczne.
+	\item Modele probabilistyczne.
 	\item Kryptografia.
 	\begin{itemize}
 		\item Szyforwanie.
@@ -168,32 +168,26 @@ Xilinx SDAccel & FPGA Xilinx & Nie \\ \hline
 \end{frame}
 
 \begin{frame}
-	\frametitle{Algorytmy...}
+	\frametitle{Algorytmy a wykonanie na GPU/FPGA}
 \begin{itemize}
 	\item Od początku istnienia komputerów, większość algorytmów była projektowana jako algrytmy sekwencyjne.
-	\item Wyodrębnienie części algorytmu, która może wykonywać się równolegle.
+	\item GPU i FPGA wymagają algorytmów równoległych aby efektywnie wykorzystać możliwości sprzętu.
+	\item Konwersja algorytmu w równoległy: wyodrębnienie części algorytmu, która może wykonywać się równolegle.
+	\item Nie każdy algorytm da się zrównoleglić.
+	\item \href{http://www.mcs.anl.gov/~itf/dbpp/text/book.html}{Ian Foster -- Designing and Building Parallel Programs}
+	\begin{itemize}
+		\item Partitioning -- find possible ways to split the data among the workers as fine-grain as possible.
+		\item Communication -- identify the communication patterns.
+		\item Agglomeration -- reduce the initial partitions to coarse-grain tasks according to the resources available.
+		\item Mapping -- map the tasks onto the processing units.
+	\end{itemize}
+%	\item \href{http://legacydirs.umiacs.umd.edu/~vishkin/PUBLICATIONS/classnotes.pdf}{Uzi Vishkin -- Thinking in Parallel: Some Basic Data-Parallel Algorithms and Techniques}
 \end{itemize}
 \end{frame}
-
-\begin{frame}
-	\frametitle{Konwersja algorytmu sekwencyjnego w równoległy}
-\begin{itemize}
-	\item foo
-\end{itemize}
-\end{frame}
-
-% Ian Foster
-% Designing and Building Parallel Programs
-% http://www.mcs.anl.gov/~itf/dbpp/text/book.html
-
-% Uzi Vishkin
-% Thinking in Parallel: Some Basic Data-Parallel Algorithms and Techniques
-% http://legacydirs.umiacs.umd.edu/~vishkin/PUBLICATIONS/classnotes.pdf
-
 
 %\begin{frame}
-%\frametitle{Architektura z centralnym punktem dostępu do sieci zewnętrznej}
-%\includegraphics[width=1.00\textwidth]{img-neutron-tenantonly.pdf}
+%\frametitle{foo}
+%\includegraphics[width=1.00\textwidth]{img-bar.pdf}
 %\end{frame}
 
 \begin{frame}
