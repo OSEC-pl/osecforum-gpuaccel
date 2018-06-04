@@ -68,13 +68,17 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Foo + bar}
+	\frametitle{Dlaczego GPU i FPGA do obliczeń?}
 \begin{itemize}
 	\item Wydajność procesorów nie rośnie już tak szybko\dots
-	\item Instancje maszyn wirtualnych {\em nie mogą} posiadać interfejsów przyłączonych bezpośrednio do sieci fizycznej (brak odp. bridge'y na węzłach obliczeniowych).
-	\item Type driver {\tt vlan}/{\tt vxlan} -- dostęp do odseparowanego segmentu sieci fizycznej.
-	\item Warstwa 2 - sterowniki ML2 (,,mechanism driver'' np. Open vSwitch).
-	\item GPGPU -- foo
+	\item Ograniczona wydajność pojedyńczego rdzenia procesora.
+	\item Procesory: mała ilość skomplikowanych jednostek ALU.
+	\item Do przyśpieszenia obliczeń i tak musimy je zrównoleglić.
+	\item GPGPU -- General Purpose computing on a Graphics Processing Unit. 
+	\item Układy GPU: {\em bardzo} duża ilość prostych jednostek ALU, bardzo wysoka wydajność pamięci.
+	\item FPGA - Field Programmable Gate Array.
+	\item Układy FPGA: Możliwość konfiguracji bramek logicznych na poziomie sprzętowym, do zaimplementowania konkretnego algorytmu.
+	
 \end{itemize}
 \end{frame}
 
@@ -84,12 +88,24 @@
 	\frametitle{Obszary zastosowań GPGPU oraz FPGA} 
 \begin{itemize}
 	\item Badania naukowe wymagające obliczeń równoległych.
-	\item Wydobycie walut kryptograficznych.
+	\begin{itemize}
+		\item Chemia.
+		\item Biologia.
+		\item Fizyka.
+	\end{itemize}
+	\item Akceleracja obliczeń w grach i multimediach.
 	\item Akceleracja przeglądarek z użyciem GPU:
 	\begin{itemize}
-		\item Chrome
-		\item Firefox
+		\item Chrome.
+		\item Firefox.
 	\end{itemize}
+	\item Modele probabilityczne.
+	\item Kryptografia.
+	\begin{itemize}
+		\item Szyforwanie.
+		\item Funkcje skrótu.
+	\end{itemize}
+	\item Wydobycie walut kryptograficznych.
 \end{itemize}
 \end{frame}
 
@@ -105,8 +121,11 @@
 	\item Duża popularność w środowisku akademickim.
 	\item Kod C kompilowany kompilatorem C++. \Annoey
 \end{itemize}
+\begin{center}
 \includegraphics[scale=0.25]{img-torvalds.png}
 \includegraphics[scale=0.19]{img-stallman.jpg}
+\end{center}
+
 
 \end{frame}
 
@@ -114,9 +133,11 @@
 	\frametitle{OpenCL}
 \begin{itemize}
 	\item Otwarty standard grupy Khronos.
-	\item Jak OpenGL, tylko do obliczeń.
-	\item Analogiczna architektura oparta o ICD, dostarczany przez dostawcę sprzętu.
-	\item Nie tylko GPU, ale też CPU, FPGA, ...
+	\item Jak OpenGL\ldots tylko do obliczeń.
+	\item Analogiczna infrastruktura oparta o ,,Installable Client Driver'', dostarczany przez dostawcę sprzętu (lub systemu operacyjnego).
+	\item Idea podobna do CUDA -- tworzymy specjalny, dedykowany kod wykonujący się na koprocesorze (,,kernel'').
+	\item API do obliczeń nie tylko na GPU, lecz też CPU, FPGA\ldots
+	\item Najnowsza wersja standardu 2.2, ale dostawcy powolni w implementacji (NVidia - 1.2, Mesa Clover 1.1).
 \end{itemize}
 \end{frame}
 
@@ -136,7 +157,7 @@ AMDGPU Pro & GPU AMD & Nie \\
 Beignet & GPU Intel & Tak \\
 Intel FPGA SDK for OpenCL & FPGA Altera & Nie \\
 Intel Graphics Compute Runtime & GPU Intel Gen8+ & Tak \\
-pocl & CPU & Tak \\
+pocl & CPU, GPU (CUDA) & Tak \\
 ROcm & GPU AMD i CPU & Tak \\
 Nvidia OpenCL & GPU Nvidia & Nie \\
 Mesa Clover & GPU AMD/Nvidia & Tak \\
@@ -144,34 +165,6 @@ Xilinx SDAccel & FPGA Xilinx & Nie \\ \hline
 \end{tabular}
 \normalsize
 \end{table}
-\end{frame}
-
-\begin{frame}
-	\frametitle{CUDA i OpenCL -- wady}
-\begin{itemize}
-
-	\item Niskopoziomowe programowanie równoległe jest trudne.
-	\item OpenCL Next ?
-\end{itemize}
-\includegraphics[scale=0.25]{img-threadpuppies.png}
-\end{frame}
-
-
-\begin{frame}
-	\frametitle{OpenACC}
-\begin{itemize}
-	\item Deklaracje w zwykłym kodzie C/C++.
-	\item nvptx (CUDA)
-	\item gcc dla nvptx (open source)
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{GPGPU i FPGA w chmurze}
-\begin{itemize}
-	\item Amazon F1.
-	\item GPU w Amazon.
-\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -203,19 +196,48 @@ Xilinx SDAccel & FPGA Xilinx & Nie \\ \hline
 %\includegraphics[width=1.00\textwidth]{img-neutron-tenantonly.pdf}
 %\end{frame}
 
+\begin{frame}
+	\frametitle{CUDA i OpenCL -- wspólne wady}
+\begin{itemize}
+
+	\item Niskopoziomowe programowanie równoległe jest trudne.
+	\item Możliwe rozwiązania: 
+	\begin{itemize}
+	\item Użycie języków programowania wyższego poziomu do implementacji algorytmów - np. PyCUDA\ldots
+	\item Użycie mechanizmów ułatwiających pisanie programów na GPU/FPGA w C/C++ - np. OpenACC.
+	\item Użycie gotowych bibliotek dziedzinowych - np. BLAS.
+	\end{itemize}
+\end{itemize}
+\begin{center}
+\includegraphics[scale=0.25]{img-threadpuppies.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{OpenACC}
+\begin{itemize}
+	\item Deklaracje w zwykłym kodzie C/C++.
+	\item Wysoki poziom, bez potrzeby pisania osobnego kodu dla GPU/FPGA.
+	\item Backend open source generujący kod nvptx (CUDA).
+	\item Niedługo wsparcie dla AMD (\href{https://gcc.gnu.org/ml/gcc/2018-05/msg00071.html}{port Mentor Graphics}).
+	\item \href{https://www.psc.edu/images/xsedetraining/OpenACC_Mar2016/OpenACC_Introduction_To_OpenACC.PDF}{John Urbanic -- Introduction to OpenACC}
+\end{itemize}
+\end{frame}
+
+
+
 \begin{frame}[fragile]
 	\frametitle{Przykład: OpenACC}
 \begin{lstlisting}
 /* gcc src.c -fopenacc -foffload=nvptx-none -foffload="-O3" -O3 -o exec */
 #include <stdio.h>
 #define N 2000000000
-#define vl 1024
 
 int main(void) {
 	double pi = 0.0f;
 	long long i;
 
-	#pragma acc parallel vector_length(vl)
+	#pragma acc parallel vector_length(32)
 	#pragma acc loop reduction(+:pi)
 	for (i = 0; i < N; i++) {
 		double t = (double)((i+0.5)/N);
@@ -232,7 +254,7 @@ int main(void) {
 \begin{frame}
 	\frametitle{Biblioteki wyższego poziomu}
 \begin{itemize}
-	\item Biblioteki wyższego poziomu.
+	\item Przyśpieszenie "drop-in", bez potrzeby zgłębiania technik programowania równoległego, GPU, FPGA, itd.
 	\item Łatwiejsze w obsłudze, niższy próg wejścia niż do CUDA/OpenCL.
 	\item Wiele gotowych bibliotek dla specyficznych dziedzin programowania.
 	\begin{itemize}
@@ -280,7 +302,7 @@ void cblas_sgemm(const CBLAS_LAYOUT layout, const CBLAS_TRANSPOSE TransA,
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{foo}
+	\frametitle{Przykład: Mnożenie macierzy za pomocą BLAS c.d.}
 \begin{itemize}
 	\item Prawdopodobnie najprostszy możliwy przypadek -- mnożenie dwóch macierzy, o takich samych rozmiarach, bez dodatkowych operacji. 
 	\item $A$ oraz $B$ mają rozmiar 1000 x 1000.
@@ -322,8 +344,8 @@ cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 1000, 1000, 1000,
 \begin{tabular}{llll}
 \hline
 Implementacja & CPU/GPU   & System operacyjny & Czas  \\ \hline
-CBLAS 3.8.0   & AMD E-350 & Fedora 28         & 6m41s \\
-Accelerate.framework & Intel Core M-5Y51  & macOS 10.13 & 0m9s  \\
+CBLAS 3.8.0   & AMD E-350 1.6GHz & Fedora 28         & 6m41s \\
+% Accelerate.framework & Intel Core M-5Y51  & macOS 10.13 & 0m9s  \\
 cuBLAS (CUDA 9.1) & GeForce GTX 1050 Ti & Fedora 28 & 0m2s  \\ \hline
 \end{tabular}
 \normalsize
@@ -338,6 +360,26 @@ cuBLAS (CUDA 9.1) & GeForce GTX 1050 Ti & Fedora 28 & 0m2s  \\ \hline
 
 \end{itemize}
 \end{frame}
+
+\begin{frame}
+	\frametitle{GPGPU i FPGA w chmurze}
+\begin{itemize}
+	\item Amazon (GPU, FPGA)
+	\begin{itemize}
+		\item Amazon EC2 \href{https://aws.amazon.com/ec2/instance-types/f1/}{F1}.
+		\item Amazon EC2 G3, P3, Elastic GPUs.
+	\end{itemize}
+	\item \href{https://cloud.google.com/gpu/}{Google Cloud (GPU)}
+	\item \href{https://www.nimbix.net/xilinx/}{Nimbix (FPGA)}
+\end{itemize}
+\end{frame}
+
+%\begin{frame}
+%\frametitle{Przyszłość}
+%	\begin{itemize}
+%		\item OpenCL Next
+%	\end{itemize}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Koniec\ldots}
