@@ -1,10 +1,11 @@
 #include <stdio.h>
+#include <stdint.h>
 
 /* on macOS build with -framework Accelerate */
 #if __APPLE__
 #include <Accelerate/Accelerate.h>
 #elif __linux__
-#include <cblas.h>
+#include <cblas/cblas.h>
 #endif
 
 #define MATRIX_EDGE_SIZE 5000
