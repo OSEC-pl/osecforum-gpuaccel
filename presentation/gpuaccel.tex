@@ -68,10 +68,19 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Dlaczego GPU i FPGA do obliczeń?}
+\frametitle{Wydajność CPU -- obecna sytuacja}
 \begin{itemize}
 	\item Wydajność procesorów nie rośnie już tak szybko\dots
 	\item Ograniczona wydajność pojedyńczego rdzenia procesora.
+\end{itemize}
+\begin{center}
+\includegraphics[scale=0.25]{img-40years.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Dlaczego GPU i FPGA do obliczeń?}
+\begin{itemize}
 	\item Procesory: mała ilość skomplikowanych jednostek ALU.
 	\item Do przyśpieszenia obliczeń i tak musimy je zrównoleglić.
 	\item GPGPU -- General Purpose computing on a Graphics Processing Unit. 
@@ -222,6 +231,7 @@ Xilinx SDAccel & FPGA Xilinx & Nie \\ \hline
 
 \begin{frame}[fragile]
 	\frametitle{Przykład: OpenACC}
+%	#pragma acc parallel vector_length(32)
 \begin{lstlisting}
 /* gcc src.c -fopenacc -foffload=nvptx-none -foffload="-O3" -O3 -o exec */
 #include <stdio.h>
@@ -231,7 +241,7 @@ int main(void) {
 	double pi = 0.0f;
 	long long i;
 
-	#pragma acc parallel vector_length(32)
+	#pragma acc parallel
 	#pragma acc loop reduction(+:pi)
 	for (i = 0; i < N; i++) {
 		double t = (double)((i+0.5)/N);
@@ -349,8 +359,10 @@ cuBLAS (CUDA 9.1) & GeForce GTX 1050 Ti & Fedora 28 & 0m2s  \\ \hline
 \begin{frame}
 \frametitle{Więcej informacji...}
 \begin{itemize}
-	\item \href{https://www.x.org/wiki/Events/XDC2017/Stellard_GPGPU.pdf}{Tom Stellard -- Current State of Open Source GPGPU - XDC2017}
+	\item \href{https://www.x.org/wiki/Events/XDC2017/Stellard_GPGPU.pdf}{Tom Stellard -- Current State of Open Source GPGPU (XDC2017)}
 	\item \href{https://developer.nvidia.com/sites/default/files/akamai/cuda/files/Misc/mygpu.pdf}{Andrzej Chrzęszczyk, Jacob Anders -- Matrix computations on the GPU - CUBLAS, CUSOLVER and MAGMA by example}
+	\item \href{https://cg.ivd.kit.edu/downloads/GPUComputing_assignment_2.pdf}{Jan Novak, Gabor Liktor, Carsten Dachsbacher -- GPU Computing: Data-Parallel Algorithms}
+	\item \href{https://pdfs.semanticscholar.org/presentation/624a/e2c934200ea7f09b9d6412685ef11f81c810.pdf}{Leyuan Wang, Sean Baxter, and John D. Owens -- Fast Parallel Suffix Array on the GPU}
 
 \end{itemize}
 \end{frame}
