@@ -82,10 +82,10 @@
 	\frametitle{Dlaczego GPU i FPGA do obliczeń?}
 \begin{itemize}
 	\item Procesory: mała ilość skomplikowanych jednostek ALU.
-	\item Do przyśpieszenia obliczeń i tak musimy je zrównoleglić.
+	\item Do przyśpieszenia obliczeń (wykorzystania wielu rdzeni) i tak musimy je zrównoleglić.
 	\item GPGPU -- General Purpose computing on a Graphics Processing Unit. 
 	\item Układy GPU: {\em bardzo} duża ilość prostych jednostek ALU, bardzo wysoka wydajność pamięci.
-	\item FPGA - Field Programmable Gate Array.
+	\item FPGA -- Field Programmable Gate Array.
 	\item Układy FPGA: Możliwość konfiguracji bramek logicznych na poziomie sprzętowym, do zaimplementowania konkretnego algorytmu.
 	
 \end{itemize}
@@ -96,14 +96,14 @@
 \begin{frame}
 	\frametitle{Obszary zastosowań GPGPU oraz FPGA} 
 \begin{itemize}
-	\item Badania naukowe wymagające obliczeń równoległych.
+	\item Badania naukowe wymagające skomplikowanych obliczeń matematycznych.
 	\begin{itemize}
 		\item Chemia.
 		\item Biologia.
 		\item Fizyka.
 	\end{itemize}
 	\item Akceleracja obliczeń w grach i multimediach.
-	\item Akceleracja przeglądarek z użyciem GPU:
+	\item Akceleracja przeglądarek:
 	\begin{itemize}
 		\item Chrome.
 		\item Firefox.
@@ -121,7 +121,7 @@
 \begin{frame}
 	\frametitle{Nvidia CUDA}
 \begin{itemize}
-	\item Dobra wydajność i optymalizacja pod kątem kart Nvidia.
+	\item Dobra wydajność i optymalizacja pod kątem GPU Nvidia.
 	\item Closed source.
 	\item Vendor lock-in.
 	\item Gotowe biblioteki BLAS, FFTW, NPP, itd.
@@ -350,7 +350,7 @@ cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 1000, 1000, 1000,
 Implementacja & CPU/GPU   & System operacyjny & Czas  \\ \hline
 CBLAS 3.8.0   & AMD E-350 1.6GHz & Fedora 28         & 6m41s \\
 % Accelerate.framework & Intel Core M-5Y51  & macOS 10.13 & 0m9s  \\
-cuBLAS (CUDA 9.1) & GeForce GTX 1050 Ti & Fedora 28 & 0m2s  \\ \hline
+cuBLAS (CUDA 9.1) & GeForce GTX 1050 Ti & Fedora 28 & 0m5s  \\ \hline
 \end{tabular}
 \normalsize
 \end{table}
